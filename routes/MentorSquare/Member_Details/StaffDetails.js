@@ -8,23 +8,31 @@ const router = express.Router();
 
 router.get('/', async(req, res) => {
   try{
-    const {Staff_id} = req.query;
+    const {staff_id} = req.query;
+    if (!staff_id) {
+      return res.status(400).send('Staff_id is required');
+    }
+    const query = 'SELECT * FROM staff_details_table WHERE Staff_id_DT = ?';
+    const results = await connection.query([query,staff_id]);
     
-    const query = 'SELECT * FROM staff_details_table WHERE staff_id_DT = 1';
-    await connection.query(query, [Staff_id], (err, results) => {
-      if (err) {
-        console.error('Error executing query:', err);
-        return res.status(500).send('Internal server error');
-      }
-      if (results.length > 0) {
+      if (results.length > 0 && results[0].length > 0) {
         res.json(results[0]);
+  //       [
+  //   {
+  //     Staff_id_DT: 9,
+  //     Staff_Name: 'Rithika Shenoy R',
+  //     Staff_RegNo: '713522AM082'
+  //   }
+  // ],
+  console.log(results)
        
-      } else {
-        res.status('Not found');
+       
+      }else{
+        res.status(404).send('Not found')
       }
-    });
+    
   }catch(error){
-    console.log('Error:', error,Date().currentDate.getTime());
+    console.log('Error:', error);
     res.status(500).send('Internal server error');
   }
   });
