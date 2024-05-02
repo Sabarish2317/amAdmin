@@ -5,10 +5,16 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+    //{"mail_id" : "Sabarish_7@gmail.com", "password" : "Sabarish_7","staff_Name" : "Sabarish" ,"staff_RegNO": "713522AM081"}
     const {mail_id, password,staff_Name,staff_RegNO} = req.body;
-    let staff_id = null;
     try {
-        // Hash the password
+        //null params test case
+          if (!mail_id || !password || !staff_Name || !staff_RegNO ) {
+
+      return res.status(400).send('All parameters Are required');
+    }
+    else{
+        //hashing        
         const hash = await bcrypt.hash(password, 12);
 
         // Insert hashed password into Staff_login_table
@@ -34,23 +40,31 @@ router.post('/', async (req, res) => {
             await connection.query(staffInsertQuery, [staff_id,staff_Name,staff_RegNO]);
             // Send a success response
             res.status(200).send('User registered successfully');
-        } else {1
-            throw new Error('Failed to get staff_id after inserting into Staff_login_table');
+            
+        } else {
+            return res.status(500).send('Failed to Registerr');
         }
+}
+        // Hash the password
     }catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
-          // duplicate entry error check
+        console.log('Error:', error, new Date().getTime());
           res.status(400).send('This account already exists.');
       }   // data length mismatch error 
       else if(error.code=== 'ER_DATA_TOO_LONG'){
+        console.log('Error:', error, new Date().getTime());
+
         res.status(403).send('invalid long input')
       }
       else if(req.body===null){
+        console.log('Error:', error, new Date().getTime());
+
         res.send("enter all details")
       }
       else {
           // Other errors
-          console.error('Error:', error);
+          console.log('Error:', error, new Date().getTime());
+
           res.status(500).send('Internal server error');
       }
   }

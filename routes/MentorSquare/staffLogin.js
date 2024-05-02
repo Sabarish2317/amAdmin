@@ -13,8 +13,18 @@ app.use(express.json());
 
 router.post('/', async (req, res) => {
   try {
+    //{"mail_id" : "Sabarish_7@gmail.com", "password" : "Sabarish_7"}
     const { mail_id, password } = req.body
-    const query = `
+    //test cases
+    if (!mail_id) {
+      return res.status(400).send('Mail id is required');
+    }
+    else if(!password){
+      return res.status(400).send('Password is required')
+    }
+    //approved request (not bad)
+    else{
+      const query = `
       SELECT *
       FROM staff_login_table 
       WHERE mail_id = ?`;
@@ -27,20 +37,28 @@ router.post('/', async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, hashedPasswordFromDatabase);
 
     if (passwordMatch) {
-      //////login auth
+      //login auth
       let mail_id = rows[0].mail_id;
       let staff_id = rows[0].Staff_id;
       const accessToken = jwt.sign({ "mail_id": mail_id }, key);
       res.status(200).json({ status : "Success","staff_id": staff_id, "token": accessToken});
+      console
+//       {
+//     "status": "Success",
+//     "staff_id": 10,
+//     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ1MDY5NTN9.ZBsVhN4g-yJxv42bLLInlgCHoirWIMH1I-B-pyTlKiE"
+// }
 
 
 
 
     } else {
-      res.status(401).send('Password does not match');
+      res.status(401).json({ status : "Failed" , message: "Incorrect Password"});
     }
+    }
+    
   } catch (error) {
-    console.log('Error:', error,Date().currentDate.getTime());
+    console.log('Error:', new Date().getTime);
     res.status(500).send('Internal server error');
   }
 });

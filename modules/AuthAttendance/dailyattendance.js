@@ -3,6 +3,12 @@ const connection = require('../../config/db');
 
 async function markDailyAttendance(date, studentid, periodStatusJSON, semno, day, periodno,next) {
     try{ 
+        //
+        //
+        //Create new row if its first period of the day
+        //else
+        //update the row if its the second period of the day
+        //
     if (parseInt(periodno) === 1){
         
         const insertQuery = `
