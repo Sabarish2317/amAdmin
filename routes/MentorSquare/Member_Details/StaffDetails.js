@@ -13,7 +13,9 @@ router.get('/', async(req, res) => {
     if (!staff_id) {
       return res.status(400).send('Staff_id is required');
     }
-    const query = 'SELECT * FROM staff_details_table WHERE Staff_id_DT = ? ';
+    const query = ` SELECT sdt.* , st.Mail_id 
+    FROM staff_details_table sdt
+    JOIN staff_login_table st ON sdt.Staff_id_DT = st.Staff_id WHERE sdt.Staff_id_DT = ?; `;
     const results = await connection.query(query,[staff_id]);
     
       if (results.length > 0 && results[0].length > 0) {

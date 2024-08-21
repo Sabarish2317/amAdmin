@@ -1,10 +1,11 @@
 const connection = require('../../config/db');
 
-async function markSubjectAttendance(studentid, subjectid, attstatus, semno,next) {
+async function markSubjectAttendance(studentid, subjectid, attstatus, semno, next, successfulUpdatesSA, unsuccessfullUpdatesSA) {
     try {
         let presentClassCount = 0;
         let totalClassCount = 1;
-        if (attstatus === "TRUE") {
+
+        if (attstatus == "True" || attstatus == 'true' || attstatus == true) {
             presentClassCount = 1;
         }
 
@@ -27,7 +28,13 @@ async function markSubjectAttendance(studentid, subjectid, attstatus, semno,next
                 ) VALUES (?,?, ?, ?, ?)
             `;
 
-            insertResult = await connection.query(InsertQuery, [studentid,semno, subjectid, presentClassCount, totalClassCount]);
+            const insertResult = await connection.query(InsertQuery, [studentid,semno, subjectid, presentClassCount, totalClassCount]).then(() => {
+                successfulUpdatesSA(studentid);
+              })
+              .catch((err) => {
+                unsuccessfullUpdatesSA(studentid);
+                console.error(err);
+              });
         } else {
             const existingPresentClassCount = results[0].Present_Class_Count || 0;
             const existingTotalClassCount = results[0].Total_Class_Count || 0;
@@ -42,9 +49,16 @@ async function markSubjectAttendance(studentid, subjectid, attstatus, semno,next
                 WHERE student_id_PAT = ? AND subject_id_PAT = ?
             `;
 
-            await connection.query(updateQuery, [presentClassCount, totalClassCount, studentid, subjectid]);
-            console.log(`Daily attendance updated for ${studentid}`);
+            const insertResult = await connection.query(updateQuery, [presentClassCount, totalClassCount, studentid, subjectid]).then(() => {
+                successfulUpdatesSA(studentid);
+              })
+              .catch((err) => {
+                unsuccessfullUpdatesSA(studentid);
+                console.error(err);
+              }
+            );
         }
+       
     } catch (error) {
         console.error(error);
         next(error); // Pass the error to the error handling middleware

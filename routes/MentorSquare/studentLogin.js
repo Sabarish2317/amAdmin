@@ -16,7 +16,7 @@ router.post('/', async (req, res, next) => {
       WHERE mail_id = ?`;
     const [rows] = await connection.query(query, [mail_id]);
 
-    if (rows.length === 0) {
+    if (rows.length === 0) {nox 
       return res.status(404).send('No user found with this email');
     }
     

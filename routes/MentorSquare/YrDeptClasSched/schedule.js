@@ -5,7 +5,8 @@ const connection = require('../../../config/db')
 const router = express.Router();
 
 
-router.get('/', async(req, res) => {
+router.post('/', async(req, res) => {
+  console.log("SCHEDULE:", req.body)
   try{
     // {
     // "year_id": 22,
@@ -13,6 +14,7 @@ router.get('/', async(req, res) => {
     // "day_id": 1
     // }
     const { year_id, class_id, day_id } = req.body; 
+   
   
     //null params check case
     if(!year_id || !class_id||!day_id){

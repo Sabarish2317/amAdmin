@@ -18,7 +18,7 @@ function jwtValidator(authHeader) {
         console.log("validated key successfully")
         return true;
     } catch (error) {
-        return false;
+        console.log("jwt error:",error);
     }
 }
 

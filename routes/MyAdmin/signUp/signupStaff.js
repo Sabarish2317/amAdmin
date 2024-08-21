@@ -48,11 +48,11 @@ router.post('/', async (req, res) => {
         // Hash the password
     }catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
-        console.log('Error:', error, new Date().getTime());
+        console.log('Error:', error, );
           res.status(400).send('This account already exists.');
       }   // data length mismatch error 
       else if(error.code=== 'ER_DATA_TOO_LONG'){
-        console.log('Error:', error, new Date().getTime());
+        console.log('Error:', error, );
 
         res.status(403).send('invalid long input')
       }

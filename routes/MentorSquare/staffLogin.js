@@ -15,11 +15,12 @@ router.post('/', async (req, res) => {
   try {
     //{"mail_id" : "Sabarish_7@gmail.com", "password" : "Sabarish_7"}
     const { mail_id, password } = req.body
+    console.log(mail_id,password);
     //test cases
-    if (!mail_id) {
+    if (mail_id.length<0) {
       return res.status(400).send('Mail id is required');
     }
-    else if(!password){
+    else if(!password.length<0){
       return res.status(400).send('Password is required')
     }
     //approved request (not bad)
@@ -58,7 +59,7 @@ router.post('/', async (req, res) => {
     }
     
   } catch (error) {
-    console.log('Error:', new Date().getTime);
+    console.log('Error:',error);
     res.status(500).send('Internal server error');
   }
 });
