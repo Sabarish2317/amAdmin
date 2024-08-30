@@ -3,19 +3,19 @@ const cors = require('cors');
 
 
 //routes for staffApp
-const staffRoute = require('./routes/MentorSquare/member_details/StaffDetails');
-const studentRoute = require('./routes/MentorSquare/Member_Details/studentDetails');
-const classRoute = require('./routes/MentorSquare/YrDeptClasSched/classes');
-const departmentRoute = require('./routes/MentorSquare/YrDeptClasSched/departments');
-const scheduleRoute = require('./routes/MentorSquare/YrDeptClasSched/schedule');
-const yearRoute = require('./routes/MentorSquare/YrDeptClasSched/years');
+const staffRoute = require('./routes/mentor_square/member_details/staffDetails');
+const studentRoute = require('./routes/mentor_square/member_details/studentDetails');
+const classRoute = require('./routes/mentor_square/yr_dept_class_schedule/classes');
+const departmentRoute = require('./routes/mentor_square/yr_dept_class_schedule/departments');
+const scheduleRoute = require('./routes/mentor_square/yr_dept_class_schedule/schedule');
+const yearRoute = require('./routes/mentor_square/yr_dept_class_schedule/years');
 const attendanceRoute = require('./routes/attendance');
-const staffLoginRoute = require('./routes/MentorSquare/staffLogin');
-const studentLoginRoute = require('./routes/MentorSquare/studentLogin');
-const staffSignUpRoute = require('./routes/MyAdmin/signUp/signupStaff');
-const studentSignUpRoute = require('./routes/MyAdmin/signUp/signupStudent');
+const staffLoginRoute = require('./routes/mentor_square/staffLogin');
+const studentLoginRoute = require('./routes/mentor_square/studentLogin');
+const staffSignUpRoute = require('./routes/my_admin/signUp/signupStaff');
+const studentSignUpRoute = require('./routes/my_admin/signUp/signupStudent');
 const studentsSubjectAttendanceRoute = require('./routes/attentive_aid/student_subject_attendance_detail');
-const staffFavouritesRoute = require('./routes/MentorSquare/Member_Details/staffFavourties')
+const staffFavouritesRoute = require('./routes/mentor_square/member_details/staffFavourties')
 const studentDateAttendanceRoute = require('./routes/attentive_aid/student_daily_attendance_detail')
 
 //middlewares
@@ -105,6 +105,12 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
 
 
 
