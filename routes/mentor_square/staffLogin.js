@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
       WHERE mail_id = ?`;
     const [rows] = await connection.query(query, [mail_id]);
     if (rows.length ===0) {
-      return res.status(404).send('No user found with this email');
+      return res.status(404).json({ message: 'No user found with this email' });
     }
     
     const hashedPasswordFromDatabase = rows[0].Password_Hash;
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
       let staff_id = rows[0].Staff_id;
       const accessToken = jwt.sign({ "mail_id": mail_id }, key);
       res.status(200).json({ status : "Success","staff_id": staff_id, "token": accessToken});
-      console
+      
 //       {
 //     "status": "Success",
 //     "staff_id": 10,
