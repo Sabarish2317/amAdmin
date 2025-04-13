@@ -68,7 +68,9 @@ const modifyHeadersMiddleware = (req, res, next) => {
 
 // Apply the middleware to all routes
 app.use(modifyHeadersMiddleware);
-
+app.get("/", (req, res) => {
+  res.status(200).send("MentorSquare API");
+});
 //staff api auth
 app.use("/my-admin/api/signup/staff", staffSignUpRoute); //http://localhost:3000/my-admin/api/signup/staff
 app.use("/MentorSquare/api/signin/staff", staffLoginRoute); //http://localhost:3000/MentorSquare/api/signin/staff
